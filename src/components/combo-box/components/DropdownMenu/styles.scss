@@ -6,12 +6,14 @@
   overflow: auto;
   padding: 5px 0;
   background: $white;
-  height: 75px;
+  max-height: 75px;
   width: 300px;
   box-shadow: 0 0 5px 1px $grey;
+  border-radius: 5px;
 
   div {
-    padding: 3px;
+    padding: 3px 5px;
+    cursor: pointer;
 
     &:hover {
       background: $grey;

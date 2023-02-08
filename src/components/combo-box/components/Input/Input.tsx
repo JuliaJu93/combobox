@@ -5,9 +5,15 @@ interface InputProps {
   value: string;
   onChange: (value: string) => void;
   setIsFocus: (isFocus: boolean) => void;
+  onFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({ value, onChange, setIsFocus }) => {
+const Input: React.FC<InputProps> = ({
+  value,
+  onChange,
+  setIsFocus,
+  onFilter
+}) => {
   const onFocus = () => {
     setIsFocus(true);
   };
@@ -23,14 +29,13 @@ const Input: React.FC<InputProps> = ({ value, onChange, setIsFocus }) => {
       </label>
       <input
         value={value}
-        onChange={onChange}
-        className="input1"
+        onChange={onFilter}
         type="text"
         name=""
         placeholder="Search"
         autoComplete="off"
         onFocus={onFocus}
-        onBlur={onBlur}
+        // onBlur={onBlur}
       />
     </div>
   );

@@ -5,21 +5,17 @@ export default {
   title: 'ComboBox'
 };
 
-const shortList = [
-  'баклажаны',
-  'солёненькие огурчики',
-  'селёдочка под томатным соусиком'
-];
+const shortList = ['tomato', 'apple', 'onion'];
 const longList = [
-  'макароны',
-  'тефтели',
-  'салат',
-  'бородинский хлеб',
-  'квас',
-  'соус',
-  'три рыжих кота',
-  'капуста',
-  'четверть луковицы'
+  'pasta',
+  'bread',
+  'salad',
+  'orange',
+  'soda',
+  'sausage',
+  'three really red cats',
+  'potato',
+  'slice of pizza'
 ];
 
 export function Default() {

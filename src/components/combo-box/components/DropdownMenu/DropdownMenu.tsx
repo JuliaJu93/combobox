@@ -3,14 +3,25 @@ import ReactDOM from 'react-dom';
 import ComboBoxI from '../../types';
 import './styles.scss';
 
-type DropdownMenuProps = Omit<ComboBoxI, 'onChange'>;
-
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ options }) => {
+const DropdownMenu: React.FC<ComboBoxI> = ({ options, value, onChange }) => {
   const body = useMemo(() => document.querySelector('body')!, []);
 
-  const menuItems = options.map((item, i) => <div key={i}> {item} </div>);
+  const changeItem = (e: React.MouseEvent): void => {
+    const input = e.target as HTMLElement;
+    onChange(input.innerText);
+  };
+
+  const menuItems = options.map((item, i) => (
+    <div key={i} role="button" onClick={changeItem}>
+      {' '}
+      {item}{' '}
+    </div>
+  ));
+
+  const menuContents = menuItems.length ? menuItems : <div> No options </div>;
+
   return ReactDOM.createPortal(
-    <div className="dropdownMenu"> {menuItems} </div>,
+    <div className="dropdownMenu"> {menuContents} </div>,
     body
   );
 };
