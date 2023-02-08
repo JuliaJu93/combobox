@@ -1,7 +1,20 @@
 @import "src/styles/variables";
 
 .dropdownMenu {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 5px 0;
   background: $white;
-  height: 10px;
-  box-shadow: 60px -16px $grey;
+  height: 75px;
+  width: 300px;
+  box-shadow: 0 0 5px 1px $grey;
+
+  div {
+    padding: 3px;
+
+    &:hover {
+      background: $grey;
+    }
+  }
 }
