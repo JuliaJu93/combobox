@@ -23,14 +23,17 @@ const DropdownMenu: React.FC<DropdownMenuI> = ({
     setIsFocus(false);
   };
 
-  const menuItems = options.map((item, i) => (
-    <div key={i} role="button" onClick={changeItem}>
-      {' '}
-      {item}{' '}
-    </div>
-  ));
+  const menuItems = options.map((item, i) => {
+    const itemStyle = value === item ? 'active-item' : '';
+    return (
+      <div key={i} role="button" onClick={changeItem} className={itemStyle}>
+        {' '}
+        {item}{' '}
+      </div>
+    );
+  });
 
-  const menuContents = menuItems.length ? menuItems : <div> No options </div>;
+  const menuContents = menuItems.length ? menuItems : <div> no options </div>;
 
   return ReactDOM.createPortal(
     <div className="dropdownMenu"> {menuContents} </div>,

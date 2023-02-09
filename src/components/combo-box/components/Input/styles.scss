@@ -5,7 +5,7 @@
   flex-direction: row;
   align-items: center;
   width: 300px;
-  border: solid 2px $blue-dark;
+  border: solid 2px $grey-dark;
   border-radius: 5px;
   padding: 5px;
 
@@ -20,10 +20,11 @@
     background: none;
     border: none;
     cursor: pointer;
+    color: $grey-dark;
 
     svg {
-      width: 10px;
-      height: 10px;
+      width: 13px;
+      height: 13px;
     }
   }
 
@@ -47,4 +48,12 @@
     width: 1px;
     white-space: nowrap;
   }
+}
+
+.input_blue {
+  border-color: $blue-dark;
+}
+
+.input_grey {
+  border-color: $grey-dark;
 }

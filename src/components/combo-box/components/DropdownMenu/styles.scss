@@ -4,20 +4,23 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
-  padding: 5px;
   background: $white;
-  max-height: 75px;
-  width: 300px;
+  max-height: 90px;
+  width: 310px;
   box-shadow: 0 2px 4px 1px $grey;
   border-radius: 5px;
 
   div {
-    padding: 3px 5px;
+    padding: 5px 10px;
     cursor: pointer;
     color: $grey-dark;
 
-    &:hover {
+    &:hover, &:active {
       background: $grey;
     }
+  }
+
+  .active-item, .active-item:hover {
+    background: $blue;
   }
 }
