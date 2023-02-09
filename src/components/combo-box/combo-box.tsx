@@ -3,12 +3,7 @@ import DropdownMenu from './components/DropdownMenu/DropdownMenu';
 import Input from './components/Input/Input';
 import ComboBoxI from './types';
 
-export function ComboBox({
-  value,
-  onChange,
-  options,
-  defaultValue
-}: ComboBoxI) {
+export function ComboBox({ value, onChange, options }: ComboBoxI) {
   const [isFocus, setIsFocus] = useState(false);
   const [filterOptions, setFilterOptions] = useState(options);
 
@@ -24,6 +19,7 @@ export function ComboBox({
       <Input
         value={value}
         onChange={onChange}
+        isFocus={isFocus}
         setIsFocus={setIsFocus}
         onFilter={onFilter}
       />
@@ -32,6 +28,7 @@ export function ComboBox({
           options={filterOptions}
           value={value}
           onChange={onChange}
+          setIsFocus={setIsFocus}
         />
       )}
     </>

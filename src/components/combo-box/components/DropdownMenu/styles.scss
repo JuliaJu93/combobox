@@ -4,16 +4,17 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
-  padding: 5px 0;
+  padding: 5px;
   background: $white;
   max-height: 75px;
   width: 300px;
-  box-shadow: 0 0 5px 1px $grey;
+  box-shadow: 0 2px 4px 1px $grey;
   border-radius: 5px;
 
   div {
     padding: 3px 5px;
     cursor: pointer;
+    color: $grey-dark;
 
     &:hover {
       background: $grey;
