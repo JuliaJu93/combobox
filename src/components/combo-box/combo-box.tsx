@@ -28,6 +28,13 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
     setActiveOptionInd(newActiveOption);
   };
 
+  const onClickInputBtn = () => {
+    setIsFocus((prev) => !prev);
+    if (!value) {
+      setActiveOptionInd(null);
+    }
+  };
+
   const changeItem = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void => {
@@ -40,11 +47,11 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
     <>
       <Input
         value={value}
-        onChange={onChange}
         isFocus={isFocus}
         setIsFocus={setIsFocus}
         onFilter={onFilter}
         onKeyDown={onKeyDown}
+        onClickInputBtn={onClickInputBtn}
       />
       {isFocus && (
         <DropdownMenu
