@@ -1,4 +1,4 @@
-import React, { KeyboardEvent } from 'react';
+import React, { KeyboardEvent, useRef } from 'react';
 import Arrow from '../../assets/svg/Arrow';
 import './styles.scss';
 
@@ -21,6 +21,12 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const arrowStyle = isFocus ? 'rotate-icon_down' : 'rotate-icon_up';
   const inputStyle = isFocus ? 'input input_blue' : 'input input_grey';
+  const inputRef = useRef(null);
+
+  const f = () => {
+    onClickInputBtn();
+    !isFocus && inputRef?.current?.focus();
+  };
 
   return (
     <div className={inputStyle}>
@@ -28,6 +34,7 @@ const Input: React.FC<InputProps> = ({
         Search:
       </label>
       <input
+        ref={inputRef}
         value={value}
         onChange={onFilter}
         type="text"
@@ -37,7 +44,7 @@ const Input: React.FC<InputProps> = ({
         onFocus={openDropdownMenu}
         onKeyDown={onKeyDown}
       />
-      <button className={arrowStyle} onClick={onClickInputBtn}>
+      <button className={arrowStyle} onClick={f}>
         <Arrow />
       </button>
     </div>
