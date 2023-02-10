@@ -23,7 +23,20 @@
 
   .active-item,
   .active-item:hover {
+    background: $grey-light;
+  }
+
+  .value-item {
     background: $blue;
+
+    &:hover,
+    &:active {
+      background: $blue-grey;
+    }
+  }
+
+  .active-change-item {
+    background: $blue-grey;
   }
 
   .no-options-item {

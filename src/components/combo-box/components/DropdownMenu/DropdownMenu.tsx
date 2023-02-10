@@ -18,7 +18,15 @@ const DropdownMenu: React.FC<DropdownMenuI> = ({
   const body = useMemo(() => document.querySelector('body')!, []);
 
   const menuItems = options.map((item, i) => {
-    const itemStyle = activeOptionInd === i ? 'active-item' : '';
+    let itemStyle = '';
+    if (activeOptionInd === i && item !== value) {
+      itemStyle = 'active-item';
+    } else if (activeOptionInd === i && item === value) {
+      itemStyle = 'active-change-item';
+    } else if (item === value) {
+      itemStyle = 'value-item';
+    }
+
     return (
       <div key={i} role="button" onClick={changeItem} className={itemStyle}>
         {item}
