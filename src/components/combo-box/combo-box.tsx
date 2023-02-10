@@ -1,4 +1,4 @@
-import React, { useEffect, useState, KeyboardEvent } from 'react';
+import React, { useEffect, useState, KeyboardEvent, useRef } from 'react';
 import DropdownMenu from './components/DropdownMenu/DropdownMenu';
 import Input from './components/Input/Input';
 import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
@@ -11,6 +11,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   const [isFocus, setIsFocus] = useState(false);
   const [activeOptionInd, setActiveOptionInd] = useState<number | null>(null);
   const [filterValue, setFilterValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setActiveOptionInd(null);
@@ -18,6 +19,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
 
   const closeDropdownMenu = () => {
     setIsFocus(false);
+    inputRef.current?.blur();
   };
 
   const openDropdownMenu = () => {
@@ -65,6 +67,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
 
   const onClickInputBtn = () => {
     setIsFocus((prev) => !prev);
+    !isFocus && inputRef.current?.focus();
   };
 
   const changeItem = (
@@ -94,6 +97,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
     <>
       <Input
         value={curValue}
+        inputRef={inputRef}
         isFocus={isFocus}
         openDropdownMenu={openDropdownMenu}
         onFilter={onFilter}
