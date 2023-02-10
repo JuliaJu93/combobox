@@ -25,8 +25,14 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   const closeDropdownMenu = () => {
     setIsFocus(false);
   };
+
   const openDropdownMenu = () => {
     setIsFocus(true);
+  };
+
+  const resetOptions = () => {
+    setFilterOptions(options);
+    closeDropdownMenu();
   };
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -48,7 +54,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
     } else if (nameBtn === 'Enter') {
       const activeOption = options.find((el, i) => i === activeOptionInd);
       activeOption && onChange(activeOption);
-      closeDropdownMenu();
+      resetOptions();
     } else if (nameBtn === 'ArrowDown' || 'ArrowUp') {
       const newActiveOption = onKeyDownArrowHelper(
         nameBtn,
@@ -68,7 +74,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   ): void => {
     const input = e.target as HTMLElement;
     onChange(input.innerText);
-    closeDropdownMenu();
+    resetOptions();
   };
 
   return (
@@ -86,7 +92,6 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
           options={filterOptions}
           value={value}
           activeOptionInd={activeOptionInd}
-          onChange={onChange}
           changeItem={changeItem}
         />
       )}
