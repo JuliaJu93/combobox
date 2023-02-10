@@ -1,8 +1,8 @@
-export default function onKeyDownHelper(
+export default function onKeyDownArrowHelper(
   nameBtn: string,
   options: string[],
   activeOptionInd: number | null
-): number {
+): number | null {
   const optionsMaxInd = options.length - 1;
 
   switch (nameBtn) {
@@ -17,6 +17,6 @@ export default function onKeyDownHelper(
       }
       return optionsMaxInd;
     default:
-      return 0;
+      return activeOptionInd;
   }
 }

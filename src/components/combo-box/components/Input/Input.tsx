@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, KeyboardEvent } from 'react';
+import React, { KeyboardEvent } from 'react';
 import Arrow from '../../assets/svg/Arrow';
 import './styles.scss';
 
 interface InputProps {
   value: string;
   isFocus: boolean;
-  setIsFocus: Dispatch<SetStateAction<boolean>>;
+  openDropdownMenu: () => void;
   onFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown: (e: KeyboardEvent) => void;
   onClickInputBtn: () => void;
@@ -14,15 +14,11 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   value,
   isFocus,
-  setIsFocus,
+  openDropdownMenu,
   onFilter,
   onKeyDown,
   onClickInputBtn
 }) => {
-  const onFocus = () => {
-    setIsFocus(true);
-  };
-
   const arrowStyle = isFocus ? 'rotate-icon_down' : 'rotate-icon_up';
   const inputStyle = isFocus ? 'input input_blue' : 'input input_grey';
 
@@ -38,7 +34,7 @@ const Input: React.FC<InputProps> = ({
         name=""
         placeholder="food"
         autoComplete="off"
-        onFocus={onFocus}
+        onFocus={openDropdownMenu}
         onKeyDown={onKeyDown}
       />
       <button className={arrowStyle} onClick={onClickInputBtn}>

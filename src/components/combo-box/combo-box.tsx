@@ -1,7 +1,7 @@
 import React, { useEffect, useState, KeyboardEvent } from 'react';
 import DropdownMenu from './components/DropdownMenu/DropdownMenu';
 import Input from './components/Input/Input';
-import onKeyDownHelper from './heplers/onKeyDownHelper';
+import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
 import ComboBoxI from './types';
 
 export function ComboBox({ value, onChange, options }: ComboBoxI) {
@@ -12,9 +12,22 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   useEffect(() => {
     if (value) {
       const activeInd = options.findIndex((el) => el === value);
-      setActiveOptionInd(activeInd);
+      activeInd !== -1
+        ? setActiveOptionInd(activeInd)
+        : setActiveOptionInd(null);
     }
   }, [value]);
+
+  useEffect(() => {
+    !value && setActiveOptionInd(null);
+  }, [isFocus]);
+
+  const closeDropdownMenu = () => {
+    setIsFocus(false);
+  };
+  const openDropdownMenu = () => {
+    setIsFocus(true);
+  };
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
@@ -24,15 +37,30 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   };
 
   const onKeyDown = (e: KeyboardEvent): void => {
-    const newActiveOption = onKeyDownHelper(e.key, options, activeOptionInd);
-    setActiveOptionInd(newActiveOption);
+    if (!isFocus) {
+      return setIsFocus(true);
+    }
+
+    const nameBtn = e.key;
+
+    if (nameBtn === 'Escape') {
+      closeDropdownMenu();
+    } else if (nameBtn === 'Enter') {
+      const activeOption = options.find((el, i) => i === activeOptionInd);
+      activeOption && onChange(activeOption);
+      closeDropdownMenu();
+    } else if (nameBtn === 'ArrowDown' || 'ArrowUp') {
+      const newActiveOption = onKeyDownArrowHelper(
+        nameBtn,
+        options,
+        activeOptionInd
+      );
+      setActiveOptionInd(newActiveOption);
+    }
   };
 
   const onClickInputBtn = () => {
     setIsFocus((prev) => !prev);
-    if (!value) {
-      setActiveOptionInd(null);
-    }
   };
 
   const changeItem = (
@@ -40,7 +68,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   ): void => {
     const input = e.target as HTMLElement;
     onChange(input.innerText);
-    setIsFocus(false);
+    closeDropdownMenu();
   };
 
   return (
@@ -48,7 +76,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
       <Input
         value={value}
         isFocus={isFocus}
-        setIsFocus={setIsFocus}
+        openDropdownMenu={openDropdownMenu}
         onFilter={onFilter}
         onKeyDown={onKeyDown}
         onClickInputBtn={onClickInputBtn}
