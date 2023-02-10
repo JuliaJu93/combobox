@@ -15,12 +15,10 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
       activeInd !== -1
         ? setActiveOptionInd(activeInd)
         : setActiveOptionInd(null);
+    } else {
+      setActiveOptionInd(null);
     }
-  }, [value]);
-
-  useEffect(() => {
-    !value && setActiveOptionInd(null);
-  }, [isFocus]);
+  }, [value, isFocus]);
 
   const closeDropdownMenu = () => {
     setIsFocus(false);
