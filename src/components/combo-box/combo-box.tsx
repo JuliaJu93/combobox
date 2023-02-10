@@ -2,22 +2,18 @@ import React, { useEffect, useState, KeyboardEvent } from 'react';
 import DropdownMenu from './components/DropdownMenu/DropdownMenu';
 import Input from './components/Input/Input';
 import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
+import btnNameEnum from './enums/btnNameEnum';
 import ComboBoxI from './types';
+import filterHelper from './heplers/filterHelper';
+import getItemStyleHelper from './heplers/getItemStyleHelper';
 
 export function ComboBox({ value, onChange, options }: ComboBoxI) {
   const [isFocus, setIsFocus] = useState(false);
-  const [filterOptions, setFilterOptions] = useState(options);
   const [activeOptionInd, setActiveOptionInd] = useState<number | null>(null);
+  const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
-    if (value) {
-      const activeInd = options.findIndex((el) => el === value);
-      activeInd !== -1
-        ? setActiveOptionInd(activeInd)
-        : setActiveOptionInd(null);
-    } else {
-      setActiveOptionInd(null);
-    }
+    setActiveOptionInd(null);
   }, [value, isFocus]);
 
   const closeDropdownMenu = () => {
@@ -29,15 +25,13 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   };
 
   const resetOptions = () => {
-    setFilterOptions(options);
     closeDropdownMenu();
+    setFilterValue('');
   };
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value;
-    onChange(value);
-    const filter = options.filter((el) => el.includes(value));
-    setFilterOptions(filter);
+    value && onChange('');
+    setFilterValue(e.target.value);
   };
 
   const onKeyDown = (e: KeyboardEvent): void => {
@@ -47,16 +41,22 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
 
     const nameBtn = e.key;
 
-    if (nameBtn === 'Escape') {
+    if (nameBtn === btnNameEnum.Escape) {
       closeDropdownMenu();
-    } else if (nameBtn === 'Enter') {
-      const activeOption = options.find((el, i) => i === activeOptionInd);
+    } else if (nameBtn === btnNameEnum.Enter) {
+      const activeOption = options.find((el, i) =>
+        activeOptionInd !== null ? i === activeOptionInd : el === filterValue
+      );
       activeOption && onChange(activeOption);
       resetOptions();
-    } else if (nameBtn === 'ArrowDown' || 'ArrowUp') {
+    } else if (
+      nameBtn === btnNameEnum.ArrowDown ||
+      nameBtn === btnNameEnum.ArrowUp
+    ) {
+      const optionsMaxInd = filterHelper(options, filterValue).length - 1;
       const newActiveOption = onKeyDownArrowHelper(
         nameBtn,
-        options,
+        optionsMaxInd,
         activeOptionInd
       );
       setActiveOptionInd(newActiveOption);
@@ -75,10 +75,25 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
     resetOptions();
   };
 
+  const menuItems = filterHelper(options, filterValue).map((el, i) => {
+    return (
+      <div
+        key={i}
+        role="button"
+        onClick={changeItem}
+        className={getItemStyleHelper(activeOptionInd === i, el === value)}
+      >
+        {el}
+      </div>
+    );
+  });
+
+  const curValue = filterValue || value;
+
   return (
     <>
       <Input
-        value={value}
+        value={curValue}
         isFocus={isFocus}
         openDropdownMenu={openDropdownMenu}
         onFilter={onFilter}
@@ -86,12 +101,14 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
         onClickInputBtn={onClickInputBtn}
       />
       {isFocus && (
-        <DropdownMenu
-          options={filterOptions}
-          value={value}
-          activeOptionInd={activeOptionInd}
-          changeItem={changeItem}
-        />
+        <DropdownMenu>
+          {' '}
+          {menuItems.length ? (
+            menuItems
+          ) : (
+            <div className="no-options-item"> no options </div>
+          )}{' '}
+        </DropdownMenu>
       )}
     </>
   );

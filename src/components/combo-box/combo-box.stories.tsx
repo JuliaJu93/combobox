@@ -5,7 +5,7 @@ export default {
   title: 'ComboBox'
 };
 
-const shortList = ['tomato', 'apple', 'onion'];
+const shortList = ['tomato', 'apple', 'onion', 'oil'];
 const longList = [
   'pasta',
   'bread',
