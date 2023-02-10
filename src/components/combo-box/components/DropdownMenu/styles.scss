@@ -1,4 +1,4 @@
-@import "src/styles/variables";
+@import 'src/styles/variables';
 
 .dropdownMenu {
   display: flex;
@@ -7,7 +7,7 @@
   background: $white;
   max-height: 90px;
   width: 310px;
-  box-shadow: 0 2px 4px 1px $grey;
+  box-shadow: 0 2px 4px 1px $grey-light;
   border-radius: 5px;
 
   div {
@@ -15,12 +15,22 @@
     cursor: pointer;
     color: $grey-dark;
 
-    &:hover, &:active {
-      background: $grey;
+    &:hover,
+    &:active {
+      background: $grey-light;
     }
   }
 
-  .active-item, .active-item:hover {
+  .active-item,
+  .active-item:hover {
     background: $blue;
+  }
+
+  .no-options-item {
+    cursor: auto;
+
+    &:hover {
+      background: none;
+    }
   }
 }

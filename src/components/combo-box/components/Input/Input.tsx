@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, KeyboardEvent } from 'react';
 import Arrow from '../../assets/svg/Arrow';
 import './styles.scss';
 
@@ -8,6 +8,7 @@ interface InputProps {
   isFocus: boolean;
   setIsFocus: Dispatch<SetStateAction<boolean>>;
   onFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (e: KeyboardEvent) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -15,7 +16,8 @@ const Input: React.FC<InputProps> = ({
   onChange,
   isFocus,
   setIsFocus,
-  onFilter
+  onFilter,
+  onKeyDown
 }) => {
   const onFocus = () => {
     setIsFocus(true);
@@ -23,15 +25,6 @@ const Input: React.FC<InputProps> = ({
 
   const onClickBtn = () => {
     setIsFocus((prev) => !prev);
-  };
-
-  const onBlur = (e) => {
-    // setIsFocus(false);
-  };
-
-  const onKeyDown = (e) => {
-    const key = e.key;
-    console.log(e);
   };
 
   const arrowStyle = isFocus ? 'rotate-icon_down' : 'rotate-icon_up';
@@ -50,7 +43,6 @@ const Input: React.FC<InputProps> = ({
         placeholder="food"
         autoComplete="off"
         onFocus={onFocus}
-        onBlur={onBlur}
         onKeyDown={onKeyDown}
       />
       <button className={arrowStyle} onClick={onClickBtn}>

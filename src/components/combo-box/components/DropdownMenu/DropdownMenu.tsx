@@ -5,35 +5,34 @@ import './styles.scss';
 interface DropdownMenuI {
   options: string[];
   value: string;
+  activeOptionInd: number | null;
   onChange: (value: string) => void;
-  setIsFocus: (isFocus: boolean) => void;
+  changeItem: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const DropdownMenu: React.FC<DropdownMenuI> = ({
   options,
   value,
+  activeOptionInd,
   onChange,
-  setIsFocus
+  changeItem
 }) => {
   const body = useMemo(() => document.querySelector('body')!, []);
 
-  const changeItem = (e: React.MouseEvent): void => {
-    const input = e.target as HTMLElement;
-    onChange(input.innerText);
-    setIsFocus(false);
-  };
-
   const menuItems = options.map((item, i) => {
-    const itemStyle = value === item ? 'active-item' : '';
+    const itemStyle = activeOptionInd === i ? 'active-item' : '';
     return (
       <div key={i} role="button" onClick={changeItem} className={itemStyle}>
-        {' '}
-        {item}{' '}
+        {item}
       </div>
     );
   });
 
-  const menuContents = menuItems.length ? menuItems : <div> no options </div>;
+  const menuContents = menuItems.length ? (
+    menuItems
+  ) : (
+    <div className="no-options-item"> no options </div>
+  );
 
   return ReactDOM.createPortal(
     <div className="dropdownMenu"> {menuContents} </div>,
