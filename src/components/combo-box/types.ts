@@ -4,7 +4,7 @@ export interface ComboBoxI {
   value: OptionsI | null;
   onChange: Dispatch<SetStateAction<OptionsI | null>>;
   options: OptionsI[];
-  defaultValue: OptionsI | null;
+  defaultValue?: OptionsI | null;
 }
 
 export interface OptionsI {

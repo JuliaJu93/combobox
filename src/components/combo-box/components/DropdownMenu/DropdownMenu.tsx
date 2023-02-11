@@ -1,20 +1,22 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './styles.scss';
+import getNodeCoordsOnPage from '../../heplers/getNodeCoordsOnPage';
 
 type DropdownMenuProps = {
   children: React.ReactNode;
-  width: string;
+  comboBoxRef: useRef<HTMLDivElement>;
 };
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
   children,
-  width
+  comboBoxRef
 }: DropdownMenuProps) => {
   const body = useMemo(() => document.querySelector('body')!, []);
+  const { x, y, width } = getNodeCoordsOnPage(comboBoxRef);
 
   return ReactDOM.createPortal(
-    <ul style={{ maxWidth: width }} className="dropdownMenu">
+    <ul style={{ width: width, top: y, left: x }} className="dropdownMenu">
       {' '}
       {children}{' '}
     </ul>,

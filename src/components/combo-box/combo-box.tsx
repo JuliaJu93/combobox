@@ -5,6 +5,7 @@ import MenuItem from './components/MenuItem/MenuItem';
 import NoOptionsItem from './components/NoOptionsItem/NoOptionsItem';
 import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
 import filterHelper from './heplers/filterHelper';
+import getNodeCoordsOnPage from './heplers/getNodeCoordsOnPage';
 import btnNameEnum from './enums/btnNameEnum';
 import { ComboBoxI } from './types';
 
@@ -116,10 +117,11 @@ export function ComboBox({
     filterValue === null
       ? value?.label || defaultValue?.label || ''
       : filterValue;
+
   const width = '300px';
 
   return (
-    <div ref={comboBoxRef} style={{ maxWidth: width }}>
+    <div ref={comboBoxRef} style={{ minWidth: width }}>
       <Input
         value={curValue}
         inputRef={inputRef}
@@ -129,7 +131,9 @@ export function ComboBox({
         onKeyDown={onKeyDown}
         onClickInputBtn={onClickInputBtn}
       />
-      {isFocus && <DropdownMenu width={width}>{dropdownContent}</DropdownMenu>}
+      {isFocus && (
+        <DropdownMenu comboBoxRef={comboBoxRef}>{dropdownContent}</DropdownMenu>
+      )}
     </div>
   );
 }

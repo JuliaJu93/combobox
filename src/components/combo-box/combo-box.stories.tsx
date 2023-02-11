@@ -8,20 +8,24 @@ export default {
 const shortList = [
   { label: 'tomato', value: 'tomato' },
   { label: 'apple', value: 'apple' },
-  { label: 'onion', value: 'onion' },
-  { label: 'oil', value: 'oil' }
+  { label: 'onion', value: 'onion' }
 ];
 
 const longList = [
-  'pasta',
-  'bread',
-  'salad',
-  'orange',
-  'soda',
-  'sausage',
-  'three really red cats',
-  'potato',
-  'slice of pizza'
+  { label: 'tomato', value: 'tomato' },
+  { label: 'apple', value: 'apple' },
+  { label: 'onion', value: 'onion' },
+  { label: 'oil', value: 'oil' },
+  { label: 'pasta', value: 'pasta' },
+  { label: 'bread', value: 'bread' },
+  { label: 'salad', value: 'salad' },
+  { label: 'orange', value: 'orange' },
+  { label: 'soda', value: 'soda' },
+  { label: 'sausage', value: 'sausage' },
+  { label: 'three really red cats', value: 'cats' },
+  { label: 'potato', value: 'potato' },
+  { label: 'slice of pizza', value: 'potato' },
+  { label: 'orange', value: 'secondOrange' }
 ];
 
 export function Default() {
@@ -30,11 +34,22 @@ export function Default() {
   );
 
   return (
-    <ComboBox
-      value={value}
-      onChange={setValue}
-      options={shortList}
-      defaultValue={shortList[1]}
-    />
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        maxWidth: '620px',
+        flexWrap: 'wrap'
+      }}
+    >
+      <ComboBox value={value} onChange={setValue} options={shortList} />
+      <ComboBox
+        value={value}
+        onChange={setValue}
+        options={longList}
+        defaultValue={shortList[1]}
+      />
+    </div>
   );
 }

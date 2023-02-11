@@ -1,6 +1,7 @@
 @import 'src/styles/variables';
 
 .dropdownMenu {
+  position: absolute;
   display: flex;
   flex-direction: column;
   overflow: auto;
