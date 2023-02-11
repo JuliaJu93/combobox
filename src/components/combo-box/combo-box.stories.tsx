@@ -39,17 +39,29 @@ export function Default() {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        maxWidth: '620px',
+        maxWidth: '650px',
         flexWrap: 'wrap'
       }}
     >
-      <ComboBox value={value} onChange={setValue} options={shortList} />
-      <ComboBox
-        value={value}
-        onChange={setValue}
-        options={longList}
-        defaultValue={shortList[1]}
-      />
+      <div>
+        <div style={{ marginBottom: '10px' }}>
+          {' '}
+          Короткий список без дефолтного значения:{' '}
+        </div>
+        <ComboBox value={value} onChange={setValue} options={shortList} />
+      </div>
+      <div>
+        <div style={{ marginBottom: '10px' }}>
+          {' '}
+          Длинный список с дефолтным значением:{' '}
+        </div>
+        <ComboBox
+          value={value}
+          onChange={setValue}
+          options={longList}
+          defaultValue={shortList[1]}
+        />
+      </div>
     </div>
   );
 }

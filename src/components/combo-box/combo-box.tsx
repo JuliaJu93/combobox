@@ -121,7 +121,7 @@ export function ComboBox({
   const width = '300px';
 
   return (
-    <div ref={comboBoxRef} style={{ minWidth: width }}>
+    <div ref={comboBoxRef} style={{ maxWidth: width, width: '100%' }}>
       <Input
         value={curValue}
         inputRef={inputRef}
