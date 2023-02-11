@@ -33,6 +33,10 @@ export function Default() {
     null
   );
 
+  const [value1, setValue1] = useState<null | { label: string; value: string }>(
+    null
+  );
+
   return (
     <div
       style={{
@@ -56,8 +60,8 @@ export function Default() {
           Длинный список с дефолтным значением:{' '}
         </div>
         <ComboBox
-          value={value}
-          onChange={setValue}
+          value={value1}
+          onChange={setValue1}
           options={longList}
           defaultValue={shortList[1]}
         />
