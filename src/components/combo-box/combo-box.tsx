@@ -8,7 +8,12 @@ import filterHelper from './heplers/filterHelper';
 import btnNameEnum from './enums/btnNameEnum';
 import ComboBoxI from './types';
 
-export function ComboBox({ value, onChange, options }: ComboBoxI) {
+export function ComboBox({
+  value,
+  onChange,
+  options,
+  defaultValue = ''
+}: ComboBoxI) {
   const [isFocus, setIsFocus] = useState(false);
   const [activeOptionInd, setActiveOptionInd] = useState<number | null>(null);
   const [filterValue, setFilterValue] = useState('');
@@ -20,11 +25,10 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
   }, [value, isFocus]);
 
   useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      const target = e.target as Element;
-      comboBoxRef.current?.contains(target) || setIsFocus(false);
-      document.addEventListener('click', onClick);
-    };
+    value && onChange('');
+    const onClick = (e: MouseEvent) =>
+      comboBoxRef.current?.contains(e.target as Element) || setIsFocus(false);
+    document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
   }, []);
 
@@ -94,14 +98,14 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
         key={i}
         onClick={changeItem}
         activeItem={activeOptionInd === i}
-        changeItem={el === value}
+        changeItem={value ? el === value : el === defaultValue}
       />
     );
   });
 
   const dropdownContent = menuItems.length ? menuItems : <NoOptionsItem />;
 
-  const curValue = filterValue || value;
+  const curValue = filterValue || value || defaultValue;
   const width = '300px';
 
   return (

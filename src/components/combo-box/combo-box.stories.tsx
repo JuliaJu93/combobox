@@ -21,5 +21,12 @@ const longList = [
 export function Default() {
   const [value, setValue] = useState('');
 
-  return <ComboBox value={value} onChange={setValue} options={shortList} />;
+  return (
+    <ComboBox
+      value={value}
+      onChange={setValue}
+      options={shortList}
+      defaultValue={shortList[1]}
+    />
+  );
 }
