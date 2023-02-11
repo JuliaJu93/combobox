@@ -6,17 +6,17 @@ import NoOptionsItem from './components/NoOptionsItem/NoOptionsItem';
 import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
 import filterHelper from './heplers/filterHelper';
 import btnNameEnum from './enums/btnNameEnum';
-import ComboBoxI from './types';
+import { ComboBoxI } from './types';
 
 export function ComboBox({
   value,
   onChange,
   options,
-  defaultValue = ''
+  defaultValue = null
 }: ComboBoxI) {
   const [isFocus, setIsFocus] = useState(false);
   const [activeOptionInd, setActiveOptionInd] = useState<number | null>(null);
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState<string | null>(null);
   const comboBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -25,7 +25,7 @@ export function ComboBox({
   }, [value, isFocus]);
 
   useEffect(() => {
-    value && onChange('');
+    value && onChange(null);
     const onClick = (e: MouseEvent) =>
       comboBoxRef.current?.contains(e.target as Element) || setIsFocus(false);
     document.addEventListener('click', onClick);
@@ -43,13 +43,43 @@ export function ComboBox({
 
   const resetOptions = () => {
     closeDropdownMenu();
-    setFilterValue('');
+    setFilterValue(null);
   };
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    value && onChange('');
+    value && onChange(null);
     setFilterValue(e.target.value);
   };
+
+  const onClickInputBtn = () => {
+    setIsFocus((prev) => !prev);
+    !isFocus && inputRef.current?.focus();
+  };
+
+  const changeItem = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
+    const input = e.target as HTMLElement;
+    const changeOption = options.find((el) => el.label === input.innerText);
+    changeOption && onChange(changeOption);
+    resetOptions();
+  };
+
+  const menuItemsArr = filterHelper(options, filterValue);
+
+  const menuItems = menuItemsArr.map((el, i) => {
+    return (
+      <MenuItem
+        el={el.label}
+        key={i}
+        onClick={changeItem}
+        activeItem={activeOptionInd === i}
+        changeItem={
+          value ? el.value === value.value : el.value === defaultValue?.value
+        }
+      />
+    );
+  });
+
+  const dropdownContent = menuItems.length ? menuItems : <NoOptionsItem />;
 
   const onKeyDown = (e: KeyboardEvent): void => {
     if (!isFocus) {
@@ -61,8 +91,10 @@ export function ComboBox({
     if (nameBtn === btnNameEnum.Escape) {
       closeDropdownMenu();
     } else if (nameBtn === btnNameEnum.Enter) {
-      const activeOption = options.find((el, i) =>
-        activeOptionInd !== null ? i === activeOptionInd : el === filterValue
+      const activeOption = menuItemsArr.find((el, i) =>
+        activeOptionInd !== null
+          ? i === activeOptionInd
+          : el.label === filterValue
       );
       activeOption && onChange(activeOption);
       resetOptions();
@@ -70,7 +102,7 @@ export function ComboBox({
       nameBtn === btnNameEnum.ArrowDown ||
       nameBtn === btnNameEnum.ArrowUp
     ) {
-      const optionsMaxInd = filterHelper(options, filterValue).length - 1;
+      const optionsMaxInd = menuItemsArr.length - 1;
       const newActiveOption = onKeyDownArrowHelper(
         nameBtn,
         optionsMaxInd,
@@ -80,32 +112,10 @@ export function ComboBox({
     }
   };
 
-  const onClickInputBtn = () => {
-    setIsFocus((prev) => !prev);
-    !isFocus && inputRef.current?.focus();
-  };
-
-  const changeItem = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
-    const input = e.target as HTMLElement;
-    onChange(input.innerText);
-    resetOptions();
-  };
-
-  const menuItems = filterHelper(options, filterValue).map((el, i) => {
-    return (
-      <MenuItem
-        el={el}
-        key={i}
-        onClick={changeItem}
-        activeItem={activeOptionInd === i}
-        changeItem={value ? el === value : el === defaultValue}
-      />
-    );
-  });
-
-  const dropdownContent = menuItems.length ? menuItems : <NoOptionsItem />;
-
-  const curValue = filterValue || value || defaultValue;
+  const curValue =
+    filterValue === null
+      ? value?.label || defaultValue?.label || ''
+      : filterValue;
   const width = '300px';
 
   return (

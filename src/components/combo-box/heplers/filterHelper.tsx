@@ -1,6 +1,12 @@
-const filterHelper = (options: string[], filterValue: string): string[] => {
+import { OptionsI } from '../types';
+
+const filterHelper = (
+  options: OptionsI[],
+  filterValue: string | null
+): OptionsI[] => {
+  const filter = filterValue === null ? '' : filterValue;
   return options.filter((el) =>
-    el.toUpperCase().includes(filterValue.toUpperCase())
+    el.label.toUpperCase().includes(filter.toUpperCase())
   );
 };
 
