@@ -8,7 +8,7 @@ const getItemStyleHelper = (
   } else if (activeItem && changeItem) {
     itemStyle = 'active-change-item';
   } else if (changeItem) {
-    itemStyle = 'value-item';
+    itemStyle = 'change-item';
   }
   return itemStyle;
 };

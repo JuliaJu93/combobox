@@ -6,44 +6,21 @@
   overflow: auto;
   background: $white;
   max-height: 90px;
-  width: 310px;
+  min-width: 100px;
   box-shadow: 0 2px 4px 1px $grey-light;
   border-radius: 5px;
+  padding: 0;
+  margin: 0;
 
-  div {
+  li, div {
     padding: 5px 10px;
     cursor: pointer;
     color: $grey-dark;
+    list-style-type: none;
 
     &:hover,
     &:active {
       background: $grey-light;
-    }
-  }
-
-  .active-item,
-  .active-item:hover {
-    background: $grey-light;
-  }
-
-  .value-item {
-    background: $blue;
-
-    &:hover,
-    &:active {
-      background: $blue-grey;
-    }
-  }
-
-  .active-change-item {
-    background: $blue-grey;
-  }
-
-  .no-options-item {
-    cursor: auto;
-
-    &:hover {
-      background: none;
     }
   }
 }

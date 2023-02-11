@@ -4,15 +4,20 @@ import './styles.scss';
 
 type DropdownMenuProps = {
   children: React.ReactNode;
+  width: string;
 };
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
-  children
+  children,
+  width
 }: DropdownMenuProps) => {
   const body = useMemo(() => document.querySelector('body')!, []);
 
   return ReactDOM.createPortal(
-    <div className="dropdownMenu"> {children} </div>,
+    <ul style={{ maxWidth: width }} className="dropdownMenu">
+      {' '}
+      {children}{' '}
+    </ul>,
     body
   );
 };

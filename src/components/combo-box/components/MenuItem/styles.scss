@@ -1,0 +1,19 @@
+@import 'src/styles/variables';
+
+.active-item,
+.active-item:hover {
+  background: $grey-light;
+}
+
+.active-change-item {
+  background: $blue-grey;
+}
+
+.change-item {
+  background: $blue;
+
+  &:hover,
+  &:active {
+    background: $blue-grey;
+  }
+}

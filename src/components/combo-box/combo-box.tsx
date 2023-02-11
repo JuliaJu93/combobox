@@ -1,21 +1,32 @@
 import React, { useEffect, useState, KeyboardEvent, useRef } from 'react';
 import DropdownMenu from './components/DropdownMenu/DropdownMenu';
 import Input from './components/Input/Input';
+import MenuItem from './components/MenuItem/MenuItem';
+import NoOptionsItem from './components/NoOptionsItem/NoOptionsItem';
 import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
+import filterHelper from './heplers/filterHelper';
 import btnNameEnum from './enums/btnNameEnum';
 import ComboBoxI from './types';
-import filterHelper from './heplers/filterHelper';
-import getItemStyleHelper from './heplers/getItemStyleHelper';
 
 export function ComboBox({ value, onChange, options }: ComboBoxI) {
   const [isFocus, setIsFocus] = useState(false);
   const [activeOptionInd, setActiveOptionInd] = useState<number | null>(null);
   const [filterValue, setFilterValue] = useState('');
+  const comboBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setActiveOptionInd(null);
   }, [value, isFocus]);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as Element;
+      comboBoxRef.current?.contains(target) || setIsFocus(false);
+      document.addEventListener('click', onClick);
+    };
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   const closeDropdownMenu = () => {
     setIsFocus(false);
@@ -70,9 +81,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
     !isFocus && inputRef.current?.focus();
   };
 
-  const changeItem = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ): void => {
+  const changeItem = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
     const input = e.target as HTMLElement;
     onChange(input.innerText);
     resetOptions();
@@ -80,21 +89,23 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
 
   const menuItems = filterHelper(options, filterValue).map((el, i) => {
     return (
-      <div
+      <MenuItem
+        el={el}
         key={i}
-        role="button"
         onClick={changeItem}
-        className={getItemStyleHelper(activeOptionInd === i, el === value)}
-      >
-        {el}
-      </div>
+        activeItem={activeOptionInd === i}
+        changeItem={el === value}
+      />
     );
   });
 
+  const dropdownContent = menuItems.length ? menuItems : <NoOptionsItem />;
+
   const curValue = filterValue || value;
+  const width = '300px';
 
   return (
-    <>
+    <div ref={comboBoxRef} style={{ maxWidth: width }}>
       <Input
         value={curValue}
         inputRef={inputRef}
@@ -104,16 +115,7 @@ export function ComboBox({ value, onChange, options }: ComboBoxI) {
         onKeyDown={onKeyDown}
         onClickInputBtn={onClickInputBtn}
       />
-      {isFocus && (
-        <DropdownMenu>
-          {' '}
-          {menuItems.length ? (
-            menuItems
-          ) : (
-            <div className="no-options-item"> no options </div>
-          )}{' '}
-        </DropdownMenu>
-      )}
-    </>
+      {isFocus && <DropdownMenu width={width}>{dropdownContent}</DropdownMenu>}
+    </div>
   );
 }
