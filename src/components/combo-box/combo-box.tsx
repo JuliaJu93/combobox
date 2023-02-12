@@ -106,6 +106,7 @@ export function ComboBox({
       nameBtn === btnNameEnum.ArrowDown ||
       nameBtn === btnNameEnum.ArrowUp
     ) {
+      e.preventDefault();
       const optionsMaxInd = menuItemsArr.length - 1;
       const newActiveOption = getNextActiveOptionHelper(
         dropdownMenuRef,

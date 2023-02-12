@@ -3,11 +3,10 @@ import btnNameEnum from './../enums/btnNameEnum';
 
 function addScrollToActiveOption(
   dropdownMenuRef: react.RefObject<HTMLUListElement>,
-  newActiveOption: number,
-  block: ScrollLogicalPosition
+  newActiveOption: number
 ): void {
   dropdownMenuRef.current?.children[newActiveOption].scrollIntoView({
-    block: block,
+    block: 'nearest',
     behavior: 'smooth'
   });
 }
@@ -18,19 +17,20 @@ export default function getNextActiveOptionHelper(
   optionsMaxInd: number,
   activeOptionInd: number | null
 ): number {
-  let newActiveOption = 0;
   if (nameBtn === btnNameEnum.ArrowDown) {
-    if (activeOptionInd || activeOptionInd === 0) {
-      newActiveOption =
+    if (activeOptionInd !== null) {
+      const newActiveOption =
         optionsMaxInd > activeOptionInd ? activeOptionInd + 1 : 0;
-      addScrollToActiveOption(dropdownMenuRef, newActiveOption, 'end');
+      addScrollToActiveOption(dropdownMenuRef, newActiveOption);
+      return newActiveOption;
     }
-    return newActiveOption;
+    return 0;
   }
 
-  if (activeOptionInd || activeOptionInd === 0) {
-    newActiveOption = activeOptionInd > 0 ? activeOptionInd - 1 : optionsMaxInd;
-    addScrollToActiveOption(dropdownMenuRef, newActiveOption, 'start');
-  }
+  const newActiveOption =
+    activeOptionInd && activeOptionInd > 0
+      ? activeOptionInd - 1
+      : optionsMaxInd;
+  addScrollToActiveOption(dropdownMenuRef, newActiveOption);
   return newActiveOption;
 }
