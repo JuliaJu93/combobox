@@ -3,9 +3,8 @@ import DropdownMenu from './components/DropdownMenu/DropdownMenu';
 import Input from './components/Input/Input';
 import MenuItem from './components/MenuItem/MenuItem';
 import NoOptionsItem from './components/NoOptionsItem/NoOptionsItem';
-import onKeyDownArrowHelper from './heplers/onKeyDownArrowHelper';
+import getNextActiveOptionHelper from './heplers/getNextActiveOptionHelper';
 import filterHelper from './heplers/filterHelper';
-import getNodeCoordsOnPage from './heplers/getNodeCoordsOnPage';
 import btnNameEnum from './enums/btnNameEnum';
 import { ComboBoxI } from './types';
 
@@ -20,6 +19,7 @@ export function ComboBox({
   const [filterValue, setFilterValue] = useState<string | null>(null);
   const comboBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownMenuRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     setActiveOptionInd(null);
@@ -67,15 +67,18 @@ export function ComboBox({
   const menuItemsArr = filterHelper(options, filterValue);
 
   const menuItems = menuItemsArr.map((el, i) => {
+    const activeEl = activeOptionInd === i;
+    const changedEl = value
+      ? el.value === value.value
+      : el.value === defaultValue?.value;
+
     return (
       <MenuItem
-        el={el.label}
         key={i}
+        item={el.label}
         onClick={changeItem}
-        activeItem={activeOptionInd === i}
-        changeItem={
-          value ? el.value === value.value : el.value === defaultValue?.value
-        }
+        activeItem={activeEl}
+        changedItem={changedEl}
       />
     );
   });
@@ -88,7 +91,6 @@ export function ComboBox({
     }
 
     const nameBtn = e.key;
-
     if (nameBtn === btnNameEnum.Escape) {
       closeDropdownMenu();
     } else if (nameBtn === btnNameEnum.Enter) {
@@ -104,7 +106,8 @@ export function ComboBox({
       nameBtn === btnNameEnum.ArrowUp
     ) {
       const optionsMaxInd = menuItemsArr.length - 1;
-      const newActiveOption = onKeyDownArrowHelper(
+      const newActiveOption = getNextActiveOptionHelper(
+        dropdownMenuRef,
         nameBtn,
         optionsMaxInd,
         activeOptionInd
@@ -132,7 +135,12 @@ export function ComboBox({
         onClickInputBtn={onClickInputBtn}
       />
       {isFocus && (
-        <DropdownMenu comboBoxRef={comboBoxRef}>{dropdownContent}</DropdownMenu>
+        <DropdownMenu
+          comboBoxRef={comboBoxRef}
+          dropdownMenuRef={dropdownMenuRef}
+        >
+          {dropdownContent}
+        </DropdownMenu>
       )}
     </div>
   );

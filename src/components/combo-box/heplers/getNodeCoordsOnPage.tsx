@@ -1,12 +1,13 @@
-import { useRef } from 'react';
+import react from 'react';
 
-const getNodeCoordsOnPage = (comboBoxRef: useRef<HTMLDivElement>) => {
-  const coordinatesCB = comboBoxRef.current.getBoundingClientRect();
+const getNodeCoordsOnPage = (comboBoxRef: react.RefObject<HTMLDivElement>) => {
+  const coordinatesCB = comboBoxRef.current?.getBoundingClientRect() as DOMRect;
+  const { left, top, width, height } = coordinatesCB;
 
   return {
-    y: coordinatesCB.top + coordinatesCB.height,
-    x: coordinatesCB.left,
-    width: coordinatesCB.width
+    y: top + height,
+    x: left,
+    width: width
   };
 };
 

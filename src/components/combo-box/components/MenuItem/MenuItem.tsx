@@ -3,25 +3,25 @@ import getItemStyleHelper from '../../heplers/getItemStyleHelper';
 import './styles.scss';
 
 interface MenuItemI {
-  el: string;
+  item: string;
   onClick: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
   activeItem: boolean;
-  changeItem: boolean;
+  changedItem: boolean;
 }
 
 const MenuItem: React.FC<MenuItemI> = ({
-  el,
+  item,
   onClick,
   activeItem,
-  changeItem
+  changedItem
 }): JSX.Element => {
   return (
     <li
       role="MenuitemRadio"
       onClick={onClick}
-      className={getItemStyleHelper(activeItem, changeItem)}
+      className={getItemStyleHelper(activeItem, changedItem)}
     >
-      {el}
+      {item}
     </li>
   );
 };
