@@ -79,6 +79,7 @@ export function ComboBox({
         onClick={changeItem}
         activeItem={activeEl}
         changedItem={changedEl}
+        isActiveOption={activeOptionInd !== null}
       />
     );
   });

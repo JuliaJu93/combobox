@@ -1,7 +1,24 @@
 @import 'src/styles/variables';
 
-.active-item,
-.active-item:hover {
+.is-hover.active-item:hover {
+  background: $grey-light;
+}
+
+.is-hover.change-item {
+  &:hover,
+  &:active {
+    background: $blue-grey;
+  }
+}
+
+li.is-hover{
+  &:hover,
+  &:active {
+    background: $grey-light;
+  }
+}
+
+.active-item{
   background: $grey-light;
 }
 
@@ -11,9 +28,4 @@
 
 li.change-item {
   background: $blue;
-
-  &:hover,
-  &:active {
-    background: $blue-grey;
-  }
 }

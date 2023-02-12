@@ -1,5 +1,5 @@
 import React from 'react';
-import getItemStyleHelper from '../../heplers/getItemStyleHelper';
+import getItemColorStyleHelper from '../../heplers/getItemColorStyleHelper';
 import './styles.scss';
 
 interface MenuItemI {
@@ -7,20 +7,22 @@ interface MenuItemI {
   onClick: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
   activeItem: boolean;
   changedItem: boolean;
+  isActiveOption: boolean;
 }
 
 const MenuItem: React.FC<MenuItemI> = ({
   item,
   onClick,
   activeItem,
-  changedItem
+  changedItem,
+  isActiveOption
 }): JSX.Element => {
+  const itemColorStyle = getItemColorStyleHelper(activeItem, changedItem);
+  const classNameItem = isActiveOption
+    ? itemColorStyle
+    : `is-hover ${itemColorStyle}`;
   return (
-    <li
-      role="MenuitemRadio"
-      onClick={onClick}
-      className={getItemStyleHelper(activeItem, changedItem)}
-    >
+    <li role="MenuitemRadio" onClick={onClick} className={classNameItem}>
       {item}
     </li>
   );

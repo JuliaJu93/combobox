@@ -18,10 +18,5 @@
     cursor: pointer;
     color: $grey-dark;
     list-style-type: none;
-
-    &:hover,
-    &:active {
-      background: $grey-light;
-    }
   }
 }

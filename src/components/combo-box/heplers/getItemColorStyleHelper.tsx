@@ -1,4 +1,4 @@
-const getItemStyleHelper = (
+const getItemColorStyleHelper = (
   activeItem: boolean,
   changeItem: boolean
 ): string => {
@@ -13,4 +13,4 @@ const getItemStyleHelper = (
   return itemStyle;
 };
 
-export default getItemStyleHelper;
+export default getItemColorStyleHelper;

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import './styles.scss';
 import getNodeCoordsOnPage from '../../heplers/getNodeCoordsOnPage';
+import './styles.scss';
 
 type DropdownMenuProps = {
   children: React.ReactNode;
