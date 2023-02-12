@@ -44,8 +44,7 @@ export function Default() {
         flexDirection: 'row',
         justifyContent: 'space-around',
         maxWidth: '650px',
-        flexWrap: 'wrap',
-        marginTop: '530px'
+        flexWrap: 'wrap'
       }}
     >
       <div>

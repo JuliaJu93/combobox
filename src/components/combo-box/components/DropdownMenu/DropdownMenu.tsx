@@ -17,7 +17,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   const body = useMemo(() => document.querySelector('body')!, []);
   const childrenLength = Array.isArray(children) ? children.length : 1;
   const { x, y, width } = getNodeCoordsOnPage(comboBoxRef, childrenLength);
-  console.log(children);
 
   return ReactDOM.createPortal(
     <ul
