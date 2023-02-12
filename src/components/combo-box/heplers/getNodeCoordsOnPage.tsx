@@ -1,14 +1,29 @@
 import react from 'react';
 
-const getNodeCoordsOnPage = (comboBoxRef: react.RefObject<HTMLDivElement>) => {
+function getNodeCoordsOnPage(
+  comboBoxRef: react.RefObject<HTMLDivElement>,
+  childrenLength: number
+) {
   const coordinatesCB = comboBoxRef.current?.getBoundingClientRect() as DOMRect;
   const { left, top, width, height } = coordinatesCB;
+  const pageHeight = document.documentElement.scrollHeight;
+  let dropdownHeight = 93;
+
+  if (childrenLength === 2) {
+    dropdownHeight = 60;
+  } else if (childrenLength === 1) {
+    dropdownHeight = 30;
+  }
+  const y =
+    coordinatesCB.top + dropdownHeight + height > pageHeight
+      ? top - dropdownHeight
+      : top + height;
 
   return {
-    y: top + height,
+    y,
     x: left,
     width: width
   };
-};
+}
 
 export default getNodeCoordsOnPage;
