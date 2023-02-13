@@ -15,7 +15,7 @@ const longList = [
   { label: 'sausage', value: 'sausage' },
   { label: 'three really red cats', value: 'cats' },
   { label: 'potato', value: 'potato' },
-  { label: 'slice of pizza', value: 'potato' },
+  { label: 'slice of pizza', value: 'pizza' },
   { label: 'orange', value: 'secondOrange' }
 ];
 

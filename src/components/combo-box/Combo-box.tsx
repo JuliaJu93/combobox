@@ -122,8 +122,8 @@ export function ComboBox({
 
   const curValue =
     filterValue === null
-      ? findLabelHelper(options, defaultValue) ||
-        findLabelHelper(options, value) ||
+      ? findLabelHelper(options, value) ||
+        findLabelHelper(options, defaultValue) ||
         ''
       : filterValue;
 
