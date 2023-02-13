@@ -45,5 +45,5 @@ Default.args = {
   value: '',
   onChange: () => {},
   options: longList,
-  defaultValue: longList[1]
+  defaultValue: longList[1].label
 };
