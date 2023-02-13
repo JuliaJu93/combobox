@@ -1,9 +1,9 @@
-import { OptionsI } from '../types';
+import { IOptions } from '../types';
 
 const filterHelper = (
-  options: OptionsI[],
+  options: IOptions[],
   filterValue: string | null
-): OptionsI[] => {
+): IOptions[] => {
   const filter = filterValue === null ? '' : filterValue;
   return options.filter((el) =>
     el.label.toUpperCase().includes(filter.toUpperCase())

@@ -2,7 +2,7 @@ import React, { KeyboardEvent } from 'react';
 import Arrow from '../../assets/svg/Arrow';
 import './styles.scss';
 
-interface InputProps {
+interface IInputProps {
   value: string;
   inputRef: React.RefObject<HTMLInputElement>;
   isFocus: boolean;
@@ -12,7 +12,7 @@ interface InputProps {
   onClickInputBtn: () => void;
 }
 
-const Input: React.FC<InputProps> = ({
+const Input: React.FC<IInputProps> = ({
   value,
   inputRef,
   isFocus,
@@ -34,7 +34,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onFilter}
         type="text"
-        name=""
+        name="comboBoxInput"
         placeholder="change food"
         autoComplete="off"
         onFocus={openDropdownMenu}

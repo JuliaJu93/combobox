@@ -5,15 +5,16 @@ import MenuItem from './components/MenuItem/MenuItem';
 import NoOptionsItem from './components/NoOptionsItem/NoOptionsItem';
 import getNextActiveOptionHelper from './heplers/getNextActiveOptionHelper';
 import filterHelper from './heplers/filterHelper';
+import findLabelHelper from './heplers/findLabelHepler';
 import btnNameEnum from './enums/btnNameEnum';
-import { ComboBoxI } from './types';
+import { IComboBox } from './types';
 
 export function ComboBox({
   value,
   onChange,
   options,
-  defaultValue = null
-}: ComboBoxI) {
+  defaultValue = ''
+}: IComboBox) {
   const [isFocus, setIsFocus] = useState(false);
   const [activeOptionInd, setActiveOptionInd] = useState<number | null>(null);
   const [filterValue, setFilterValue] = useState<string | null>(null);
@@ -23,10 +24,14 @@ export function ComboBox({
 
   useEffect(() => {
     setActiveOptionInd(null);
-  }, [value, isFocus]);
+  }, [value]);
 
   useEffect(() => {
-    value && onChange(null);
+    setActiveOptionInd(null);
+    setFilterValue(null);
+  }, [isFocus]);
+
+  useEffect(() => {
     const onClick = (e: MouseEvent) =>
       comboBoxRef.current?.contains(e.target as Element) || setIsFocus(false);
     document.addEventListener('click', onClick);
@@ -48,7 +53,6 @@ export function ComboBox({
   };
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    value && onChange(null);
     setFilterValue(e.target.value);
   };
 
@@ -60,7 +64,7 @@ export function ComboBox({
   const changeItem = (e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
     const input = e.target as HTMLElement;
     const changeOption = options.find((el) => el.label === input.innerText);
-    changeOption && onChange(changeOption);
+    changeOption && onChange(changeOption.value);
     resetOptions();
   };
 
@@ -68,9 +72,7 @@ export function ComboBox({
 
   const menuItems = menuItemsArr.map((el, i) => {
     const activeEl = activeOptionInd === i;
-    const changedEl = value
-      ? el.value === value.value
-      : el.value === defaultValue?.value;
+    const changedEl = value ? el.value === value : el.value === defaultValue;
 
     return (
       <MenuItem
@@ -100,7 +102,7 @@ export function ComboBox({
           ? i === activeOptionInd
           : el.label === filterValue
       );
-      activeOption && onChange(activeOption);
+      activeOption && onChange(activeOption.value);
       resetOptions();
     } else if (
       nameBtn === btnNameEnum.ArrowDown ||
@@ -120,7 +122,9 @@ export function ComboBox({
 
   const curValue =
     filterValue === null
-      ? value?.label || defaultValue?.label || ''
+      ? findLabelHelper(options, defaultValue) ||
+        findLabelHelper(options, value) ||
+        ''
       : filterValue;
 
   const width = '300px';

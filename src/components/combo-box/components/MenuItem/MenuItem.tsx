@@ -2,7 +2,7 @@ import React from 'react';
 import getItemColorStyleHelper from '../../heplers/getItemColorStyleHelper';
 import './styles.scss';
 
-interface MenuItemI {
+interface IMenuItem {
   item: string;
   onClick: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
   activeItem: boolean;
@@ -10,7 +10,7 @@ interface MenuItemI {
   isActiveOption: boolean;
 }
 
-const MenuItem: React.FC<MenuItemI> = ({
+const MenuItem: React.FC<IMenuItem> = ({
   item,
   onClick,
   activeItem,

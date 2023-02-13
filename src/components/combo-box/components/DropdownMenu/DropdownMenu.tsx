@@ -14,12 +14,20 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   comboBoxRef,
   dropdownMenuRef
 }: DropdownMenuProps) => {
-  const body = useMemo(() => document.querySelector('body')!, []);
+  let root = useMemo(() => document.getElementById('root'), []);
+
+  if (!root) {
+    root = document.createElement('div');
+    root.setAttribute('id', 'root');
+    document.body.appendChild(root);
+  }
+
   const childrenLength = Array.isArray(children) ? children.length : 1;
   const { x, y, width } = getNodeCoordsOnPage(comboBoxRef, childrenLength);
 
   return ReactDOM.createPortal(
     <ul
+      id="portal"
       style={{ width: width, top: y, left: x }}
       ref={dropdownMenuRef}
       className="dropdownMenu"
@@ -27,7 +35,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       {' '}
       {children}{' '}
     </ul>,
-    body
+    root
   );
 };
 
